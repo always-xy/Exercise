@@ -1,0 +1,2 @@
+"/Ruby/ =~ "rUBY"
+/RUBY/ =~ "RUBY"
