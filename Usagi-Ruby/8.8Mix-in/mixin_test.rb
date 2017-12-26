@@ -11,4 +11,4 @@ end
 c = C.new
 p c.meth  #=>meth
 
-C.include?(M)  #=> True
+C.include?(M)  #=> True	

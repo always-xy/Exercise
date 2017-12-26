@@ -5,7 +5,6 @@ class RingArray < Array   #指定父级
   end
 end
 
-
 wday = RingArray["日", "月", "嚒", "教", "杨", "小", "阿", "颖"]
 p wday[6]
 p wday[12]

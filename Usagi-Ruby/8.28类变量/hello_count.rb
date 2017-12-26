@@ -11,7 +11,7 @@ class HelloCount
 
 	def hello
 		@@count += 1                           #累加调用次数
-		puts "Hello, word. I am #{@name}.\n"
+		puts "Hello, word。 I am #{@name}.\n"
 	end
 end
 
