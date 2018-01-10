@@ -1,0 +1,11 @@
+interger对象转换为float类型可以使用to_f方法
+
+float对象转换为interger对象可以使用to_i方法
+
+对于数值的小数点可以使用round方法对小数点进行四舍五入
+
+对于数值接收者大的最小整数可以用ceil方法，返回接收者小的最大整数可以用floor方法
+
+还可以使用to_r方法把数值转换为rationsl类型
+
+使用to_c方法把数值转换为complex类型
