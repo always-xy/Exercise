@@ -16,3 +16,9 @@ class Vector
   	scalar <=> other.scalar
   end
 end
+
+v1 = Vector.new(2, 6)
+v2 = Vector.new(4, -4)
+p v1 <=> v2
+p v1 < v2
+p v1 > v2
