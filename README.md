@@ -1,1 +1,3 @@
-﻿#Ruby的练习文件
+﻿#Usagi-Ruby为练习文本
+
+#Standard为全书标准代码
