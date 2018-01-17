@@ -1,0 +1,4 @@
+No command 'nobup' found, did you mean:
+ Command 'nodup' from package 'perforate' (universe)
+ Command 'nohup' from package 'coreutils' (main)
+nobup: command not found
