@@ -1,0 +1,180 @@
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<style type="text/css">
+	.apply{
+		width:100%;
+    height:100%;
+		background:url('/vote_images/apply.png');
+    background-size:100% 100%;
+    position:absolute;
+	}
+	.apply_input_1{
+		width: 184px;
+    height: 32px;
+    margin-left: 303px;
+    /*opacity: 0;*/
+	}
+	.apply_input_2{
+		width: 303px;
+    height: 175px;
+    background-image: url('/vote_images/apply_button.png');
+    /*margin-left: 545px;
+    margin-top: 114px;*/
+    position: fixed;
+    top: 67%;
+    left: 10%;
+	}
+	.apply_input_2_1{
+		width: 177px;
+    height: 34px;
+    margin-left: 121px;
+    margin-top: 2px;
+    opacity: 0.3;
+    color: black;
+	}
+	.apply_input_2_2{
+		width: 177px;
+    height: 34px;
+    margin-left: 121px;
+    margin-top: 32px;
+    opacity: 0.3;
+    color: black;
+	}
+	.apply_input_2_3{
+		width: 100px;
+		height: 38px;
+    /*margin-top: 0px;
+    margin-left: 103px;
+    margin-top: 38px;*/
+    color: #fff;
+    /*background-color: green;*/
+    border-color: #28a745;
+    position: fixed;
+    top: 92%;
+    left: 35%;
+    opacity: 0;
+	}
+	.apply_upload_span{
+		/*position: fixed;*/
+    top: -286px;
+		display: inline-block;
+		width: 98px;
+    height: 30px;
+    /*margin-left: 302px;
+    margin-top: 525px;*/
+    background-position: -300px -523px;
+    position: fixed;
+    top: 51%;
+    left: -40%;
+    opacity: 0;
+	}
+	.span_after_pic{
+		width: 130px;
+		height: 145px;
+		background-color: red;
+		top: 43%;
+		left: 34%;
+		position: fixed;
+		opacity: 0;
+	}
+	/*背景音乐1*/
+  *{ margin:0; padding:0; list-style:none;}
+  #lanren #audio-btn{width: 34px;height: 34px; position: fixed;top: 93% ;left: 88%;background-size: 100% 100%;}
+  #lanren .on{background: url('/images/music_on.png') no-repeat 0 0;-webkit-animation: rotating 1.2s linear infinite;animation: rotating 1.2s linear infinite;}
+  #lanren .off{background: url('/images/music_off.png') no-repeat 0 0;}
+  @-webkit-keyframes rotating {
+    from{
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to{
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes rotating {
+    from{
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to{
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+</style>
+<%= form_for(@person,:url=>{:action=>"apply_create"},:html=>{:id=>"apply_form_id",:class=>"validate",:remote=>true}) do |f| %>
+<div style="width: 100%;height: 100%;">
+<div class="apply">
+	<%= hidden_field_tag :flag_id %>
+	<%= hidden_field_tag :id,@person.id %>
+	<div id="span_after_pic" class="span_after_pic"></div>
+	<span class="apply_upload_span">
+		<%= f.file_field :pic_url,{:class=>"apply_input_1",:size=>50,:onchange=>"pic_change()"} %>
+	</span>
+	<div class="apply_input_2">
+		<%= f.text_field :people_name,{:placeholder=>"",:class=>"apply_input_2_1",:required=>true} %>
+		<%= f.text_field :people_mobile,{:placeholder=>"",:class=>"apply_input_2_2",:required=>true} %>
+		<%= f.submit("确定",:class=>"apply_input_2_3",:id=>"commit_id") %>
+	</div>
+	<!-- 背景音乐2 -->
+  <div id="lanren">
+    <div id="audio-btn" class="on" onclick="lanren.changeClass(this,'media')">
+      <audio loop="loop" src="/vote_images/wind137.mp3" id="media" preload="preload"></audio>
+    </div>
+  </div>
+</div>
+</div>
+<% end %>
+<!-- <audio autoplay="autoplay" loop="loop" preload="auto" src="/vote_images/wind.mp3"></audio> -->
+<script type="text/javascript">
+	$(function(){
+		var pic_url = '<%= @pic_url %>';
+		if(pic_url=="true"){
+			var pic_url = '<%= @person.pic_url.url %>';
+			if(pic_url!= ""){
+				$("#span_after_pic").css("background-color",'white');
+				$("#span_after_pic").css("opacity",1);
+				$("#span_after_pic").css("background-image","url("+pic_url+")");
+				$("#span_after_pic").css("background-size",'100% 100%');
+			}
+		} 
+	})
+	function pic_change(){
+		var person_people_name = $("#person_people_name").val();
+		var person_people_mobile = $("#person_people_mobile").val();
+		if(person_people_name==""){
+			$("#person_people_name").val("姓名");
+		}
+		if(person_people_mobile==""){
+			$("#person_people_mobile").val("电话");
+		}
+		$("#flag_id").val("temp_flag");
+		$("#commit_id").trigger('click');
+	}
+	// 背景音乐2
+  var lanren = {
+    changeClass: function (target,id) {
+      var className = $(target).attr('class');
+      var ids = document.getElementById(id);
+      (className == 'on') ? $(target).removeClass('on').addClass('off') : $(target).removeClass('off').addClass('on');
+      (className == 'on') ? ids.pause() : ids.play();
+    },
+    play:function(){
+      document.getElementById('media').play();
+    }
+  }
+  lanren.play();
+</script>
+

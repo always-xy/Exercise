@@ -1,0 +1,166 @@
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<style type="text/css">
+	.vote_index_detail{
+		width:100%;
+    height:100%;
+		background:url('/vote_images/apply.png');
+    background-size:100% 100%;
+    position:absolute;
+	}
+	.image_id{
+		width: 130px;
+    height: 140px;
+    /*padding-left: 0px;*/
+    /*border: 3px solid red;*/
+	}
+	.image_id img{
+		width:100%;height:100%;
+	}
+	.vote_index_detail_input_1{
+		/*margin-left: 532px;
+    margin-top: 440px;*/
+    position: fixed;
+    top: 44%;
+    left: 34%;
+	}
+	.vote_index_detail_input_2{
+		/*margin-left: 532px;
+    margin-top: 48px;*/
+    width: 303px;
+    height: 175px;
+    background:url('/vote_images/vote_index_detail_button.png')no-repeat;
+    position: fixed;
+    top: 68%;
+    left: 12%;
+	}
+	.vote_index_detail_input_2_1{
+		/*display: inline-block;
+    margin-left: 1px;
+    margin-top: 41px;*/
+    position: fixed;
+    top: 78%;
+    left: 13%;
+	}
+	.vote_index_detail_input_2_2{
+		/*width:50px;
+		height: 40px;*/
+		/*display: inline-block;
+    margin-left: 67px;*/
+    position: fixed;
+    top: 78%;
+    left: 61%;
+	}
+	.vote_index_detail_input_2_3{
+		/*display: inline-block;
+    margin-left: 105px;
+    margin-top: 39px;*/
+    position: fixed;
+    top: 88%;
+    left: 36%;
+	}
+	.vote_index_detail_input_2_4{
+		/*display: inline-block;
+    margin-left: 149px;
+    margin-top: 6px;*/
+    font-size: larger;
+    font-weight:bold;
+    color: white;
+    position: fixed;
+    top: 68.5%;
+    left: 45%;
+	}
+	/*背景音乐1*/
+  *{ margin:0; padding:0; list-style:none;}
+  #lanren #audio-btn{width: 34px;height: 34px; position: fixed;top: 93% ;left: 88%;background-size: 100% 100%;}
+  #lanren .on{background: url('/images/music_on.png') no-repeat 0 0;-webkit-animation: rotating 1.2s linear infinite;animation: rotating 1.2s linear infinite;}
+  #lanren .off{background: url('/images/music_off.png') no-repeat 0 0;}
+  @-webkit-keyframes rotating {
+    from{
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to{
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes rotating {
+    from{
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to{
+      -webkit-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+</style>
+<div style="width: 100%;height: 100%;">
+	<div class="vote_index_detail">
+		<div class="vote_index_detail_input_1">
+			<div class="image_id"><%= image_tag @person.pic_url.url(:small) %></div>
+		</div>
+
+		<div class="vote_index_detail_input_2">
+
+			<span class="vote_index_detail_input_2_4">
+				<div><%= @person.people_name %></div>
+			</span>
+			<span class="vote_index_detail_input_2_1">
+				<button style="width:112px;height:33px;opacity: 0;" onclick="window.location.href='/people/apply'">我要报名</button>
+			</span>
+			<span class="vote_index_detail_input_2_2">
+				<button style="width:112px;height:33px;opacity: 0;" onclick="vote_index_detail_count('<%= @person.id %>')">我要投票</button>
+			</span>
+			<span class="vote_index_detail_input_2_3">
+				<button style="width:95px;height:32px;opacity: 0;" onclick="window.location.href='/people/vote_index'">排行榜</button>
+			</span>
+		</div>
+		<!-- 背景音乐2 -->
+    <div id="lanren">
+      <div id="audio-btn" class="on" onclick="lanren.changeClass(this,'media')">
+        <audio loop="loop" src="/vote_images/wind137.mp3" id="media" preload="preload"></audio>
+      </div>
+    </div>
+	</div>
+</div>
+<!-- <audio autoplay="autoplay" loop="loop" preload="auto" src="/vote_images/wind.mp3"></audio> -->
+<script type="text/javascript">
+	function vote_index_detail_count(id){
+		$.ajax({
+			type: 'get',
+			url: "vote_index_detail_count",
+			data: {id: id},
+			success: function(data){
+				alert("恭喜您获得由帝景天誉提供音乐节门票2张,请到售楼处领取。");
+				window.location.href = '/people/vote_index'
+			}
+		})
+	}
+	// 背景音乐2
+  var lanren = {
+    changeClass: function (target,id) {
+      var className = $(target).attr('class');
+      var ids = document.getElementById(id);
+      (className == 'on') ? $(target).removeClass('on').addClass('off') : $(target).removeClass('off').addClass('on');
+      (className == 'on') ? ids.pause() : ids.play();
+    },
+    play:function(){
+      document.getElementById('media').play();
+    }
+  }
+  lanren.play();
+</script>
+
