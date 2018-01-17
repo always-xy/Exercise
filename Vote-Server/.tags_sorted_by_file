@@ -1,0 +1,33 @@
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+ApplicationCable	app/channels/application_cable/channel.rb	/^module ApplicationCable$/;"	m
+Channel	app/channels/application_cable/channel.rb	/^  class Channel < ActionCable::Channel::Base$/;"	c	class:ApplicationCable
+ApplicationCable	app/channels/application_cable/connection.rb	/^module ApplicationCable$/;"	m
+Connection	app/channels/application_cable/connection.rb	/^  class Connection < ActionCable::Connection::Base$/;"	c	class:ApplicationCable
+ApplicationController	app/controllers/application_controller.rb	/^class ApplicationController < ActionController::Base$/;"	c
+PeopleController	app/controllers/people_controller.rb	/^class PeopleController < ApplicationController$/;"	c
+active_rule	app/controllers/people_controller.rb	/^	def active_rule$/;"	f	class:PeopleController
+apply	app/controllers/people_controller.rb	/^	def apply$/;"	f	class:PeopleController
+apply_create	app/controllers/people_controller.rb	/^	def apply_create$/;"	f	class:PeopleController
+index	app/controllers/people_controller.rb	/^	def index$/;"	f	class:PeopleController
+vote_index	app/controllers/people_controller.rb	/^	def vote_index$/;"	f	class:PeopleController
+ApplicationHelper	app/helpers/application_helper.rb	/^module ApplicationHelper$/;"	m
+PeopleHelper	app/helpers/people_helper.rb	/^module PeopleHelper$/;"	m
+ApplicationJob	app/jobs/application_job.rb	/^class ApplicationJob < ActiveJob::Base$/;"	c
+ApplicationMailer	app/mailers/application_mailer.rb	/^class ApplicationMailer < ActionMailer::Base$/;"	c
+ApplicationRecord	app/models/application_record.rb	/^class ApplicationRecord < ActiveRecord::Base$/;"	c
+Person	app/models/person.rb	/^class Person < ApplicationRecord$/;"	c
+system!	bin/setup	/^def system!(*args)$/;"	f
+system!	bin/update	/^def system!(*args)$/;"	f
+Application	config/application.rb	/^  class Application < Rails::Application$/;"	c	class:VoteServer
+VoteServer	config/application.rb	/^module VoteServer$/;"	m
+CreatePeople	db/migrate/20170831021843_create_people.rb	/^class CreatePeople < ActiveRecord::Migration[5.1]$/;"	c
+change	db/migrate/20170831021843_create_people.rb	/^  def change$/;"	f	class:CreatePeople
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+ApplicationSystemTestCase	test/application_system_test_case.rb	/^class ApplicationSystemTestCase < ActionDispatch::SystemTestCase$/;"	c
+PeopleControllerTest	test/controllers/people_controller_test.rb	/^class PeopleControllerTest < ActionDispatch::IntegrationTest$/;"	c
+PersonTest	test/models/person_test.rb	/^class PersonTest < ActiveSupport::TestCase$/;"	c
+ActiveSupport	test/test_helper.rb	/^class ActiveSupport::TestCase$/;"	c
