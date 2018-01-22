@@ -49,3 +49,56 @@ h = {"a" => "b", "c" => "d"}
 p h.keys
 p h.values
 p h.to_a
+
+#散列的默认值
+h = Hash.new(11)
+h["a"] = 10
+p h["a"]
+p h["b"]
+
+h = Hash.new do |hash, key| #指定散列的默认值，确不唯一性。
+  hash[key] = key.upcase 
+end
+h["a"] = "b"
+p h["a"]
+p h["x"]
+p h["y"]
+
+h = Hash.new do |hash, key|
+  hash[key] = key.upcase
+end
+p h.fetch("x","(undef)") #fetch方法的第二个参数指定的优先级是最高的。
+
+#查看指定对象是否为散列的健或值
+h = {"a" => "b", "c" => "d"}
+p h.key?("a")
+p h.has_key?("a")
+p h.include?("z")
+p h.member?("z")
+#查看散列的值是否存在
+h = {"a" => "b", "c" => "d"}
+p h.value?("b")
+p h.has_value?("d")
+
+#查看散列大小
+h = {"a" => "b", "c" => "d"}
+p h.size
+p h.length
+
+p h.empty? #查看散列大小是否为0
+h2 = Hash.new
+p h2.empty?
+
+#删除键值
+h = {"a" => "b", "c" => "d"}
+p h.delete("a")
+p h
+p h.delete("a"){|key| "no key #{key}."}
+#delete_if用法
+p h.delete_if{|key, value| key == "a"}
+p h.reject!{|key, value| key == "a"} #reject! 和delete方法相同，返回值不同
+
+#初始化散列
+h = {"a" => "b", "c" => "d"}
+h.clear #使用clear方法清空散列，会清空继承对象内容
+#h.Hash.new #创建新的散列覆盖，不会清空对象内容
