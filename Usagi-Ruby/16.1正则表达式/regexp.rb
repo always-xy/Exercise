@@ -54,9 +54,64 @@ re2 = Regexp.new(Regexp.quote("abc*def"))
 p (re1 =~ "abc*def")
 p (re2 =~ "abc*def")
 
-#正则表达式选项
+#正则表达式选项 使用方法，只需在/ /后面加上指定参数即可。
 # i 忽略英文大小写。
 # x 忽略正则表达式中的空白字符和#号，这样就可以在#后添加注释
 # m 指定这个选项后就可以使用 . 匹配换行符
+#还可以用Regexp.new方法中的第2个参数指定常量，例子:Regexp.new("Ruby脚本", Regexp::IGNORECASE | Regexp::MULTILINE)
 
-#
+#捕获（后向引用）通过 $ 符号获取字符值。例子：
+/(.)(.)(.)/ =~ "abc"
+first = $1
+seconf = $2
+third = $3
+p first
+p seconf
+p third
+#使用（？：）过滤不需要的捕获模式。例子：
+/（.）(\d\d)+(.)/ =~ "123456"
+p $1
+p $2
+p $3
+/（.）(?:\d\d)+(.)/ =~ "123456"
+p $1
+p $2
+#除了字符$外还有变量`、&、'分别代表匹配字符串的前部、中部、后部
+/C./ =~ "ABCDEFG"
+p $`
+p $&
+p $'
+
+#字符串中有一些正则表达式方法 sub、gsub、scan方法
+str = "abc def g hi"
+p str.sub(/\s+/,'')
+p str.gsub(/\s+/,'')
+#sub方法只会替换abc\def间的空白、gsub则会替换全部空白。方法还可以用在块中
+str = "rabcdeafg"
+nstr = str.sub(/.a/) do |matched|
+  '<'+matched.upcase+'>'
+end
+p nstr
+nstr = str.gsub(/.a/) do |matched|
+  '<'+matched.upcase+'>'
+end
+p nstr
+
+#scan方法可以像gsub方法那样获取字符串，但是不能置换操作。
+"abracatabra".scan(/.a/) do |matched|
+  p matched
+end
+#正则表达式中使用（）会以数组的形式返回
+"abracatabra".scan(/(.)(a)/) do |matched|
+  p matched
+end
+#如果指定与()相等数量的块参数，则返回的不是数组，而是个数
+"abracatabra".scan(/(.)(a)/) do |a, b|
+  p a+"-"+b
+end
+#如果没有块，则返回匹配的字符串数组
+
+#例子
+str = "http://www.ruby-lang.org/ja/"
+%r[http://([^/]*)/] =~ str
+print "server address:", $1, "\n"
