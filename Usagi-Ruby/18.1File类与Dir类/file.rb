@@ -119,3 +119,94 @@ def traverse(path)
   	end
   end
 end
+
+#目录的删除和创建
+Dir.mkdir(path)# 创建新目录用Dir.mkdir方法。
+Dir.mkdir("temp")
+Dir.rmdir(path)# 删除目录用Dir.rmdir方法。
+Dir.rmdir("temp")
+
+#文件与目录的属性
+=begin
+  文件与目录都有属性，例如时间戳、大小、所有者等。
+  File.stat（path）方法可以获取文件、目录的属性。File.stat返回的是File::stat类的实例，如下。
+  ---------------------------------------
+  |	dev		| 文件系统的编号				|
+  ---------------------------------------
+  |	ino		| i-node编号					|
+  ---------------------------------------
+  | mode	| 文件的属性 					|
+  ---------------------------------------
+  | nlink	| 链接数 						|
+  ---------------------------------------
+  | uid 	| 文件所有者用户的ID 			|
+  ---------------------------------------
+  | gid		| 文件所有组的ID				|
+  ---------------------------------------
+  | rdev 	| 文件系统的块大小				|
+  ---------------------------------------
+  | size	| 文件大小 					|
+  ---------------------------------------
+  | blksize | 文件系统的块大小				|
+  ---------------------------------------
+  | blocks  | 文件占用的块数量 			|
+  ---------------------------------------
+  | atime 	| 文件最后的访问时间			|
+  ---------------------------------------
+  | mtime 	| 文件最后的修改时间 			|
+  ---------------------------------------
+  | ctime 	| 文件最后状态的的更改时间 		|
+  ---------------------------------------
+  其中除了atime\mtime\ctime方法返回Time对象外，其他方法都是返回的整数值。
+  通过uid、gid方法获取对应的用户ID和组ID时，需要用到ETC模块，通过 require 'etc' 引用。
+
+  require 'etc'
+
+  st = File.stat("/usr/local/bin/ruby")
+  pw = Etc.getpwuid(st.uid)
+  p pw.name
+  gr = Etc.getgrgid(st.gid)
+  p gr.name
+
+  File.ctime(path)
+  File.mtime(path)
+  File.atime(path)
+  这三个方法与实例方法File::Stat#ctime\File::Stat#atime\File::Stat#mtime是一样的如果同时使用两个以上方法用下面的会更有效率/
+  File.utime(atime,mtime,path)
+
+  filename = "foo"
+  File.open(filename, "w").close #创建文件后关闭
+
+  st = File.stat(filename)
+  p st.ctime
+  p st.atime
+  p st.mtime
+
+  File.utime(Time.now - 100, Time.now - 100, filename)
+  st = File.stat(filename)
+  p st.ctime
+  p st.atime
+  p st.mtime
+
+  #File.chmod(mode, path) 修改文件path的访问权限，mode的值为整数，同时可以访问多个路径。
+
+   ------------所有者的读取权限
+  |------------所有者的写入权限
+  ||-----------所有者的执行权限
+  |||	 ------所属组的权限
+  |||	 |	   ----其他用户访问的权限
+  |||	 |	   |
+  111	111	  111
+  举例：设定所有者的权限为读写，其他用户为只读。 数值为 110100100。由于8进制刚好什用1个数字表示3位，因此一般会将权限位用8进制表示。
+  File.chmod(0644, "test.txt")
+
+  #可以追加权限，然后在计算后的新值重新设定。
+  rb_file = "text.rb"
+  st = File.stat(rb_file)
+  File.chmod(st.mode) | 0111, rb_file) #追加执行权限
+
+  File.chown(owner, groud, path) #改变文件path所有者，owner表示新的所有者用户ID，group表示新的所属组ID。
+  
+
+
+=end
