@@ -207,6 +207,99 @@ Dir.rmdir("temp")
 
   File.chown(owner, groud, path) #改变文件path所有者，owner表示新的所有者用户ID，group表示新的所属组ID。
   
+  #FileTest模块中的方法用于检查文件的属性，该模块可以在include后使用，也可以直接作为模块函数使用。
+  FileTest模块方法
+  --------------------------------------------------------------------
+  |	exist?(path)	|	path若存在则返回true							 |
+  --------------------------------------------------------------------
+  |	file?(path)		|	path若存在则返回true							 |
+  --------------------------------------------------------------------
+  |	directory?(path)|	path若是目录则返回true							 |
+  --------------------------------------------------------------------
+  |	owned?(path)	|	path的所有者与执行用户一样则返回true				 |
+  --------------------------------------------------------------------
+  |	grpowned?(path) |	path的所属组与执行用户所属组一样则返回true			 |
+  --------------------------------------------------------------------
+  |	readable?(path) |	path可读返回true								 |
+  --------------------------------------------------------------------
+  |	writable?(path) |	path可写返回true								 |
+  --------------------------------------------------------------------
+  | executable?(path)|	path执行则返回true 							 |
+  --------------------------------------------------------------------
+  |	size(path)		|	返回path的大小								 |
+  --------------------------------------------------------------------
+  |	size?(path)		|	path大小比0大时返回true，比0小返回nil			 |
+  --------------------------------------------------------------------
+  |	zero?(path)		|	path的大小为0时返回true						 |
+  --------------------------------------------------------------------
 
+  #文件名的操作
+  File.basename(path[,suffix])返回路径path最后一个“/”以后的部分，如果指定了扩展名suffi，则会去除返回值中扩展名的部分。在路径中获取文件名使用该方法。
+  p File.basename("/usr/local/bin/ruby")
+  p File.basename("/src/ruby/file.c", ".c")
+  p File.basename("file.c")
 
+  #File.dirname(path)返回路径path中最后一个“/”之前的内容，路径不包含“/”时返回“。”，在从路径中获取目录名时使用该方法。
+  p File.dirname("/usr/local/bin/ruby")
+  p File.dirname("ruby")
+  p File.dirname("/")
+
+  #File.extname(path)返回路径path中basename的扩展名，在从路径中获取扩展名则使用该方法。
+  P File.extname("/usr/local/bin/ruby.rb")
+  p File.extname("ruby-2.4.1-p0.tar.gz")
+  p File.extname("/usr/local/bin/ruby")
+  p File.exrname("~/.zshrc")
+
+  #File.split(path)将路径path分割为目录与文件两部分，并以数组形式返回。在知道返回值的数量时，使用多重赋值会很方便。
+  p File.split("/usr/local/bin/ruby")
+  p File.split("ruby")
+  p File.split("/")
+  dir, base = File.split("/usr/local/bin/ruby")
+
+  #File.join(name1[name2,^^^])用File::SEPARATOR连接参数指定的字符串，默认值为”/“
+  p File.join("/usr/bin/", "ruby")
+  p File.join(".", "ruby")
+
+  #File_expand_path(path[,default_dir])根据目录名default_dir,将相对路径转化为绝对路径。不指定default_dir时根据当前目录转换。
+  p Dir.pwd
+  p File.expand_path("bin")
+  p FIle.expand_path("../bin")
+  在unix中可以用”～“用户名的形式获取用户主目录。
+  p File.expand_path("~gotoyuzo/bin")
+
+  #与操作文件相关的库
+  find库中的find模块被用于对指定的目录下的目录或文件做递归处理。
+  Find.find(dir){|path|^^^} find方法会将目录下dir下所有文件路径逐个传递给path
+  Find.prune 在使用Find.find时候调用，Find.prune方法，程序会跳过当前查找目录下的所有路径。（使用next时会跳过当前目录，但是子目录依然会查找。）
+
+  #代码实例：
+  require 'find'  
+
+  IGNPORES = [/^\./, /^CVsS$/, /^RCS$/]
+  def listdir(top)
+  	Find.find(top) do |path|
+  	  if FileText.directory?(path)     #如果path是目录
+  	  	dir, base = File.split(path)
+  	  	IGNORES.each do |re|
+  	  	  if re =~ base 			   #需要忽略的目录
+  	  	  	Find.prune 				   #忽略该目录下的内容查找
+  	  	  end
+  	  	end
+  	  	puts path 					   #输出结果
+  	  end
+  	end
+  end
+
+  listdir(ARGV[0])
+
+  #tempfile库 用于管理临时文件，在处理大量的输出时候，有时候会将需要的数据写进临时文件。且在程序执行完毕后不再需要，因此必须删除。
+  #Tempfile.new(basename[,tempdir]) 创建临时文件，实际生成的文件名格式为：basename + 进程ID + 流水号。因此即使是同样的basename，每次调用生成文件也是不一样的。
+  #如果不指定tempdir,则会按照顺序查找ENV['TMPDIR']\ENV['TMP']\ENV['TEMP']\/TMP,并把最先找到的路径作为临时目录使用。
+  
+  #tempfile.close(real) 关闭临时文件，real为ture时则马上删除临时文件。即使没有明确指定删除，tempfile对象也会在GC的时候一并删除。real的值默认为false.
+
+  #tempfile.open 再次打开close方法关闭的临时文件。
+
+  #tempfile.path 返回临时文件的路径。
+  
 =end
